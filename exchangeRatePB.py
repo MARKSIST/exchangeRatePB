@@ -5,7 +5,7 @@ from datetime import datetime
 #action - 'sale' or 'purchase'
 
 
-def exchangeRatePB(currency, action):
+def exchangeRatePB(currency='USD', action='saleAndPurchahse'):
     url = 'https://api.privatbank.ua/p24api/exchange_rates?json&date=' + \
         datetime.now().strftime(f'%d.%m.%Y')
     data = requests.get(url).json()
@@ -15,8 +15,12 @@ def exchangeRatePB(currency, action):
                 if (action == 'sale') & ('saleRate' in item.keys()):
                     sale = item['saleRate']
                     return sale
-                elif (action == 'purchase') & ('saleRate' in item.keys()):
+                elif (action == 'purchase') & ('purchaseRate' in item.keys()):
                     purchase = item['purchaseRate']
                     return purchase
+                elif (action == 'saleAndPurchahse') & ('saleRate' in item.keys()):
+                    sale = item['saleRate']
+                    purchase = item['purchaseRate']
+                    return sale, purchase
         else:
             continue
